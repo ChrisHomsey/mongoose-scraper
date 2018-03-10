@@ -1,7 +1,7 @@
 module.exports = (app, db, cheerio, request) => {
     
     // A GET route for scraping the floridaman subreddit
-    app.get("/scrape", function(req, res) {
+    app.get("/api/scrape", function(req, res) {
         // First, we grab the body of the html with request
         request("https://www.reddit.com/r/FloridaMan", function(error, response, html) {
             // Load the HTML into cheerio and save it to a variable
@@ -43,9 +43,9 @@ module.exports = (app, db, cheerio, request) => {
     });
 
     // Route for getting all Headlines from the db
-    app.get("/headlines", function(req, res) {
+    app.get("/api/headlines", function(req, res) {
         // Grab every document in the Headlines collection
-        db.Headline.find({})
+        db.Headline.find({ 'saved': false })
         .then(function(dbHeadline) {
             // If we were able to successfully find Headlines, send them back to the client
             res.json(dbHeadline);
@@ -55,6 +55,24 @@ module.exports = (app, db, cheerio, request) => {
             res.json(err);
         });
     });
+
+    // Route for getting all Headlines from the db
+    app.get("/api/headlines", function(req, res) {
+        // Grab every document in the Headlines collection
+        db.Headline.find({ 'saved': true })
+        .then(function(dbHeadline) {
+            // If we were able to successfully find Headlines, send them back to the client
+            res.json(dbHeadline);
+        })
+        .catch(function(err) {
+            // If an error occurred, send it to the client
+            res.json(err);
+    });
+});
+
+    app.put("/headlines", function(req, res){
+    
+    })
 
 
 }
