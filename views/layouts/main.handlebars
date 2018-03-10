@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mongo Scraper - Chris Homsey</title>
+    <link rel="stylesheet" type="text/css" href="./semantic/semantic.min.css">
+	<link rel="stylesheet" href="./assets/css/style.css" type="text/css">
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+	<script src="./semantic/semantic.min.js"></script>
+</head>
+<body>
+
+<div class="ui inverted vertical center aligned segment" id="jumbotron" style="background-image: url('./assets/img/bg.jpg');">
+
+    <div class="ui basic inverted borderless secondary pointing menu" id="nav">
+        
+        <div class="header item mobile only">
+            <i class="ui newspaper icon"></i>Mongo Scraper!
+        </div>
+        <a class="item {{#if activeHome}}active{{/if}}" href="/">
+            Home
+        </a>
+        <a class="item {{#if activeSaved}}active{{/if}}" href="/saved">
+            Saved Articles
+            <div class="ui tiny red label">8</div>
+        </a>
+        <div class="right menu">
+            {{#if activeHome}}
+            <a class="item scrape-btn" href="/scrape">
+                <i class="ui plus icon"></i>
+                Scrape New Articles
+            </a>
+            {{/if}}
+        </div>
+    </div>
+
+    
+</div>
+
+{{{body}}}
+
+</body>
+</html>
