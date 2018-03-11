@@ -8,7 +8,7 @@
       "themes": "src/themes/"
     },
     "output": {
-      "packaged": "../public/css/",
+      "packaged": "../public/semantic/",
       "uncompressed": "../public/semantic/components/",
       "compressed": "../public/semantic/components/",
       "themes": "../public/semantic/themes/"
@@ -16,7 +16,7 @@
     "clean": "dist/"
   },
   "permission": false,
-  "autoInstall": false,
+  "autoInstall": true,
   "rtl": false,
   "components": [
     "reset",

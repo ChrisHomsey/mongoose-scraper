@@ -38,7 +38,7 @@ module.exports = (app, db, cheerio, request) => {
                 }
             });
             // If we were able to successfully scrape and save an Headline, send a message to the client
-            res.send("Scrape Complete");
+            res.redirect('/');
         });
     });
 
@@ -52,12 +52,12 @@ module.exports = (app, db, cheerio, request) => {
         })
         .catch(function(err) {
             // If an error occurred, send it to the client
-            res.json(err);
+            return res.json(err);
         });
     });
 
     // Route for getting all Headlines from the db
-    app.get("/api/headlines", function(req, res) {
+    app.get("/api/saved", function(req, res) {
         // Grab every document in the Headlines collection
         db.Headline.find({ 'saved': true })
         .then(function(dbHeadline) {
@@ -65,14 +65,25 @@ module.exports = (app, db, cheerio, request) => {
             res.json(dbHeadline);
         })
         .catch(function(err) {
-            // If an error occurred, send it to the client
-            res.json(err);
+            return res.json(err);
+        });
     });
-});
 
-    app.put("/headlines", function(req, res){
-    
-    })
+    // Route for saving headlines
+    app.post("/api/headlines/save/:id", function(req, res){
+        db.Headline.findOneAndUpdate({ _id: req.params.id }, { saved: true })
+        .then(function(dbReturn){
+            res.redirect("/");
+        });
+    });
+
+    // Route for unsaving headlines
+    app.post("/api/headlines/unsave/:id", function(req, res){
+        db.Headline.findOneAndUpdate({ _id: req.params.id }, { saved: false })
+        .then(function(dbReturn){
+            res.redirect("/saved");
+        });
+    });
 
 
 }

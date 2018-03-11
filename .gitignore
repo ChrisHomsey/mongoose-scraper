@@ -58,4 +58,5 @@ typings/
 .env
 
 # semantic directory
+semantic.json
 semantic/*
