@@ -2,8 +2,8 @@
   "name": "mongoose-scraper",
   "version": "1.0.0",
   "engines": {
-      "node": "8.9.4"
-    },
+    "node": "8.9.4"
+  },
   "description": "",
   "main": "server.js",
   "scripts": {
@@ -27,7 +27,6 @@
     "gulp": "^3.9.1",
     "mongoose": "^5.0.9",
     "path": "^0.12.7",
-    "request": "^2.83.0",
-    "semantic-ui": "^2.3.0"
+    "request": "^2.83.0"
   }
 }
