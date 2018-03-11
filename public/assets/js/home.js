@@ -1,3 +1,4 @@
+// JSON get request to grab all headlines and append them to the #feed
 $.getJSON("/api/headlines", function(data) {
     // For each one
     for (var i = 0; i < data.length; i++) {
@@ -6,12 +7,13 @@ $.getJSON("/api/headlines", function(data) {
     }
 });
 
+// Grabs the number of saved articles to display them on the navbar
 $.getJSON("/api/saved", function(data) {
     $("#saved-num").text(data.length);
 });
 
 
-
+// When the save button is clicked, grab the ID of that article and use the /api/headlines/save/:id POST route to change the saved value to true
 $(document).on("click", ".save-btn", function(){
     var headlineId = $(this).data("id");
     console.log(headlineId);

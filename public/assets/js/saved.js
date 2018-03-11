@@ -1,3 +1,4 @@
+// JSON get request to grab all saved headlines and append them to the #feed - also grabs the number of saved articles to display them on the navbar
 $.getJSON("/api/saved", function(data) {
     // For each one
     for (var i = 0; i < data.length; i++) {
@@ -7,6 +8,7 @@ $.getJSON("/api/saved", function(data) {
     }
 });
 
+// When the un-save button is clicked, grab the ID of that headline and use the /api/headlines/save/:id POST route to change the saved value to false
 $(document).on("click", ".unsave-btn", function(){
     var headlineId = $(this).data("id");
     console.log(headlineId);

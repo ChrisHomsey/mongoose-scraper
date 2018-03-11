@@ -37,7 +37,7 @@ module.exports = (app, db, cheerio, request) => {
                     });
                 }
             });
-            // If we were able to successfully scrape and save an Headline, send a message to the client
+            // If we were able to successfully scrape and save an Headline, redirect back to home
             res.redirect('/');
         });
     });
@@ -52,7 +52,7 @@ module.exports = (app, db, cheerio, request) => {
         })
         .catch(function(err) {
             // If an error occurred, send it to the client
-            return res.json(err);
+            res.json(err);
         });
     });
 
@@ -65,7 +65,7 @@ module.exports = (app, db, cheerio, request) => {
             res.json(dbHeadline);
         })
         .catch(function(err) {
-            return res.json(err);
+            res.json(err);
         });
     });
 
