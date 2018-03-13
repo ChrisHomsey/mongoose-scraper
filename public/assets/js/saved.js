@@ -1,12 +1,40 @@
-// JSON get request to grab all saved headlines and append them to the #feed - also grabs the number of saved articles to display them on the navbar
+
 $.getJSON("/api/saved", function(data) {
-    // For each one
     $("#saved-num").text(data.length);
-    for (var i = 0; i < data.length; i++) {
-        console.log(data[i]);
-        $("#feed").append('<div class="column"><div class="ui fluid card"><div class="image"><a class="header" href=' + data[i].link + '><img class="fluid" src="' + data[i].thumbnail + '"></a></div><div class="content"><a class="header" href="' + data[i].link + '">' + data[i].title + '</a></div><div class="ui small bottom attached red button unsave-btn" data-id="'  + data[i]._id + '"><i class="minus icon"></i>Remove from Saved</div></div></div>');
-    }
 });
+
+// Open comments modal and request comment for this headline
+$(document).on("click", ".comment-btn", function(){
+    var headlineId = $(this).data("id");
+    $("#comment-modal-" + headlineId).modal('show');
+    $.ajax({
+        method: "GET",
+        url: "/api/headlines/" + headlineId
+    }).done(function(data){
+        if (data) {
+            for (var i = 0; i < data.length; i++) {
+                $("#comments").append('<div class="comment"><div class="content"><a class="author">' + data[i].title + '</a></div><div class="text">' + data[i].body + '</div></div>');
+            }
+        }
+    }); 
+});
+
+// Submit comment
+$(document).on("click", "#comment-submit", function(){
+    var headlineId = $(this).data("id");
+    var newTitle = $("#comment-title-" + headlineId).val();
+    var newBody = $("#comment-body-" + headlineId).val();
+    $.ajax({
+        method: "POST",
+        url: "/api/headlines/" + headlineId,
+        data: {
+            title: newTitle,
+            body: newBody
+        }
+    }).done(function(data){
+        $("#comments-" + headlineId).append("<h3>" + newTitle + "</h3><p>" + newBody + "</p>");
+    })
+})
 
 // When the un-save button is clicked, grab the ID of that headline and use the /api/headlines/save/:id POST route to change the saved value to false
 $(document).on("click", ".unsave-btn", function(){

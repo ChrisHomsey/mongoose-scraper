@@ -38,6 +38,6 @@ mongoose.connect(MONGODB_URI, {});
 
 // Import Routes
 require("./routes/api.js")(app, db, cheerio, request);
-require("./routes/view.js")(app);
+require("./routes/view.js")(app, db);
 
 app.listen(PORT, ()=> console.log(`App listening on port ${PORT}`))

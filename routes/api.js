@@ -42,21 +42,21 @@ module.exports = (app, db, cheerio, request) => {
         });
     });
 
-    // Route for getting all Headlines from the db
-    app.get("/api/headlines", function(req, res) {
-        // Grab every document in the Headlines collection
-        db.Headline.find({ 'saved': false })
-        .then(function(dbHeadline) {
-            // If we were able to successfully find Headlines, send them back to the client
-            res.json(dbHeadline);
-        })
-        .catch(function(err) {
-            // If an error occurred, send it to the client
-            res.json(err);
-        });
-    });
+    // // Route for getting all Headlines from the db
+    // app.get("/api/headlines", function(req, res) {
+    //     // Grab every document in the Headlines collection
+    //     db.Headline.find({ 'saved': false }).populate("note")
+    //     .then(function(dbHeadline) {
+    //         // If we were able to successfully find Headlines, send them back to the client
+    //         res.json(dbHeadline);
+    //     })
+    //     .catch(function(err) {
+    //         // If an error occurred, send it to the client
+    //         res.json(err);
+    //     });
+    // });
 
-    // Route for getting all Headlines from the db
+    // Route for finding saved headlines (for couting the amount saved)
     app.get("/api/saved", function(req, res) {
         // Grab every document in the Headlines collection
         db.Headline.find({ 'saved': true })
@@ -67,6 +67,30 @@ module.exports = (app, db, cheerio, request) => {
         .catch(function(err) {
             res.json(err);
         });
+    });
+
+    // Get and populate comments from a Headline
+    app.get("/api/headlines/:id", function(req, res){
+        db.Note.findOne({ _id: req.params.id })
+        .populate("note")
+        .then(function(dbHeadline){
+            res.json(dbHeadline);
+        }).catch(function(err){
+            res.json(err);
+        })
+    })
+
+    // Create a comment
+    app.post("/api/headlines/:id", function(req, res){
+        db.Note.create(req.body)
+        .then(function(dbNote){
+            return db.Headline.findOneAndUpdate({ _id: req.params.id }, { $push: { note: dbNote } })
+            .then(function(dbHeadline){
+                res.json(dbHeadline);
+            });
+        }).catch(function(err){
+            res.json(err);
+        })
     });
 
     // Route for saving headlines

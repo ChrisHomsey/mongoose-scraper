@@ -1,6 +1,60 @@
 <div class="ui container">
     <div class="ui four column stackable grid" id="feed">
         
+        {{#each headlines}}
+            <div class="column">
+                <div class="ui fluid card">
+                    <div class="image">
+                        <a class="header" href="{{this.link}}">
+                            <img class="fluid" src="{{this.thumbnail}}">
+                        </a>
+                    </div>
+                    <div class="content">
+                        <a class="header" href="{{this.link}}">
+                             {{this.title}}
+                        </a>
+                    </div>
+                    <div class="ui bottom attached two buttons">
+                        <button class="ui small button comment-btn" data-id="{{this._id}}"><i class="comments icon"></i>Comments</button>
+                        <button class="ui small red button unsave-btn" data-id="{{this._id}}"><i class="minus icon"></i>Remove</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui modal" id="comment-modal-{{this._id}}">
+                <div class="header">Comments</div>
+                <div class="content" id="comments">
+                    <div class="ui container two column stackable grid">
+                        
+                        <div class="ui column comments" id="comments-{{this._id}}">
+                            
+                                {{#each this.note}}
+                                    <h3>{{this.title}}</h3>
+                                    <p>{{this.body}}</p>
+                                {{/each}}
+        
+                        </div>
+
+                        <div class="ui right floated column">
+                            <form class="ui reply form">
+                                <div class="ui header">Leave a Comment</div>
+                                <label for="title">Username</label>
+                                <input id="comment-title-{{this._id}}" type="text" name="title"  placeholder="Username" />
+                                <div class="field">
+                                    <label for="body">Comment</label>
+                                    <textarea id="comment-body-{{this._id}}" name="body" placeholder="Comment"></textarea>
+                                </div>
+                                <div class="ui primary submit labeled icon button" id="comment-submit" data-id="{{this._id}}">
+                                    <i class="icon edit"></i> Add Comment
+                                </div>
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
+        {{/each}}
 
     </div>
 </div>
